@@ -1,0 +1,12 @@
+venv/    #your virtual environment, 100s of MBs, machine-specific, never commit this
+__pycache__/ #Python's compiled bytecode files, auto-generated, not your code
+*.pyc   #compiled Python files, same reason
+*.pyo   #optimized Python files
+.env  #YOUR SECRETS (DB password, secret keys) — never ever push this to GitHub
+*.db    #SQLite database file, this is actual data not code
+.DS_Store   #mac system file, irrelevant to project
+.idea/      #PyCharm editor settings, not project code
+.vscode/        #VS Code editor settings, not project code
+*.egg-info/
+dist/
+build/
