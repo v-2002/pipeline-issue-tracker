@@ -5,10 +5,10 @@ from app.db.session import Base
 
 #`SeverityLevel` and `IssueStatus` are Python enums — they restrict what values are allowed. can't set status to "BANANA" — SQLAlchemy will reject it.
 class SeverityLevel(enum.Enum):
-    LOW = "Low"
-    MEDIUM = "Medium"
-    HIGH = "High"
-    CRITICAL = "Critical"
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
 
 class IssueStatus(enum.Enum):
     OPEN = "OPEN"
