@@ -14,7 +14,9 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 #Base is the base class for all your database models. When you define a new model (e.g., User, Issue), you will inherit from Base. This allows SQLAlchemy to keep track of all the models and their corresponding database tables, making it easier to create and manage the database schema.
 Base = declarative_base()
 
-#get_db is a dependency function that provides a database session to your API endpoints. When you include get_db as a dependency in your endpoint functions, FastAPI will call this function to create a new database session for each request. The yield statement allows the function to return the session to the endpoint, and once the request is completed, the finally block ensures that the session is properly closed, preventing any potential resource leaks.
+#get_db is a dependency function that provides a database session to your API endpoints. 
+# When you include get_db as a dependency in your endpoint functions, FastAPI will call this function to create a new database session for each request. 
+# The yield statement allows the function to return the session to the endpoint, and once the request is completed, the finally block ensures that the session is properly closed, preventing any potential resource leaks.
 def get_db():
     db = SessionLocal()
     try:
