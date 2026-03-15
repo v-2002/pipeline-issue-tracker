@@ -1,8 +1,12 @@
 from fastapi import FastAPI
+from fastapi.security import OAuth2PasswordBearer
 from dotenv import load_dotenv      #reads your .env file and loads everything into environment variables
 from app.api.routes import issues
 from app.db.session import Base, engine
 import os                           #reads the environment variables set in .env file
+from app.api.routes import issues, auth
+
+
 
 load_dotenv()                       #loads the .env file and makes the variables available in os.environ
 
@@ -14,11 +18,13 @@ app = FastAPI(
     description="Track and manage data pipeline failures and issues",
     version=os.getenv("APP_VERSION", "1.0.0"),                          #os.getenv() reads the value of the environment variable, .env file  is read
     docs_url="/docs",                                                   #docs_url="/docs" tells FastAPI where to serve the auto-generated documentation.
-    redoc_url="/redoc"                                                  
+    redoc_url="/redoc",
+    swagger_ui_oauth2_redirect_url="/oauth2-redirect",                                                
 )
 
 # Register router with the main app.
 app.include_router(issues.router, prefix="/issues", tags=["Issues"])
+app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 
 #Defines a GET endpoint at the root level. whnever someone send a GET req, this function
 @app.get("/")                                       
