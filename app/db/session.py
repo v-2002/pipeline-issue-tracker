@@ -4,8 +4,9 @@ from sqlalchemy.orm import sessionmaker
 from app.core.config import settings
 
 engine = create_engine(                     #the actual connection to database. SQLAlchemy reads DATABASE_URL from config and knows it's SQLite. The connect_args={"check_same_thread": False} is specific to SQLite and allows the connection to be shared across multiple threads, which is necessary for FastAPI's async handling.
-    settings.DATABASE_URL,
-    connect_args={"check_same_thread": False}
+    settings.DATABASE_URL
+    #connect_args={"check_same_thread": False}
+    #this is for SQLite, for SQL Server you would not include connect_args
 )
 
 #SessionLocal is a factory for creating new database sessions. Each time you call SessionLocal(), it will create a new session that is connected to the database defined by the engine. The autocommit=False means that changes to the database won't be automatically committed after each operation, giving you control over when to commit or rollback transactions. The autoflush=False means that changes won't be automatically flushed to the database before queries, which can help prevent unintended side effects during complex operations.
