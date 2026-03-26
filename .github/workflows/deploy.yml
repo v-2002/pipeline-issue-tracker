@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        env:
+          APP_NAME: "Pipeline Issue Tracker"
+          APP_VERSION: "1.0.0"
+          DEBUG: "True"
+          SECRET_KEY: "test-secret-key-for-ci"
+          DATABASE_URL: "sqlite:///./test_pipeline_tracker.db"
+          ALGORITHM: "HS256"
+          ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+        run: |
+          pytest tests/ -v
+
+  # build:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - name: Login to Azure Container Registry
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: pipelineissuetrackerregistry.azurecr.io
+  #         username: ${{ secrets.ACR_USERNAME }}
+  #         password: ${{ secrets.ACR_PASSWORD }}
+  #     - name: Build and push Docker image
+  #       uses: docker/build-push-action@v4
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: pipelineissuetrackerregistry.azurecr.io/pipeline-issue-tracker:latest
